@@ -12,9 +12,9 @@ Our product uses Polygon to write text data on chain. Using Polygon chain has al
 
 ## Technology Stacks
 - Front-End: React, Vite
-- Smart Contract: Solidity (Polygon), Hardhat<br>Polygonscan Link: https://mumbai.polygonscan.com/address/0xc6B435429b3881800B5Cf20567A5aDDAe37db90B
+- Smart Contract: Solidity (Polygon), Hardhat<br>Polygonscan Link: https://mumbai.polygonscan.com/address/0xc6B435429b3881800B5Cf20567A5aDDAe37db90B<br>We're aiming a prize for best UX / best metaverse or gaming project.<br>Our collaborative platform where fans, authors, and illustrators frequently purchase NFTs from each other requires fast, stress-free transactions and low gas fees. Polygon is well positioned to meet these requirements while improving our brand as a chain with a low environmental impact.
 - Data Storage: IPFS
-- Others: Worldcoin
+- Other Tools/APIs: Worldcoin, Unlock Protocol, Push Protocol
 
 ## What's Next
 TBD
