@@ -1,0 +1,18 @@
+export const CATEGORY_OPTIONS = [
+  'Adventure',
+  'ChickLit',
+  'Fanfiction',
+  'General Fiction',
+  'Historical Fiction',
+  'Horror',
+  'Humor',
+  'Isekai',
+  'Mystery / Thriller',
+  'Non-Fiction / Essay',
+  'Poetry',
+  'Romance',
+  'Romantic Comedy',
+  'Science Fiction',
+  'Teen Fiction',
+  'Other',
+] as const;
