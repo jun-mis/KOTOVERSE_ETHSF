@@ -22,4 +22,6 @@ Our product uses Polygon to write text data on chain. Using Polygon chain has al
 - Our collaborative platform where fans, authors, and illustrators frequently purchase NFTs from each other requires fast, stress-free transactions and low gas fees. Polygon is well positioned to meet these requirements while improving our brand as a chain with a low environmental impact.
 
 ## What's Next
-TBD
+We would like to create community functions for writers and illustrators to interact with other creators and fans.
+- Chat feature with XMTP (In Preparation)
+- Visualization of the social graph between creators and fans
