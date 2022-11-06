@@ -33,3 +33,16 @@ As programming languages, Solidity was used to write the smart contracts, and th
 We would like to create community functions for writers and illustrators to interact with other creators and fans.
 - Chat feature with XMTP (In Preparation)
 - Visualization of the social graph between creators and fans
+
+## Run locally
+```
+cd smart_contract
+yarn add hardhat
+npx hardhat compile
+
+cd ..
+cd frontend
+npm i
+npm run dev
+```
+
