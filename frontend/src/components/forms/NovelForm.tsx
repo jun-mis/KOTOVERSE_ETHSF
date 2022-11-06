@@ -23,12 +23,17 @@ import { TARGETAUDIENCE_OPTIONS } from '@/utils/constants/targetAudience';
 import { COPYRIGHT_OPTIONS } from '@/utils/constants/copyRight';
 import ImageInput from './ImageInput';
 import CharacterInput from './CharacterInput';
+import { makeStorageClient } from '../../utils/storage-client.js';
 
 export type NovelFormProps = {
   existingTitle?: string;
 };
 
-const NovelForm = () => {
+type Props = {
+  auth: boolean;
+};
+
+const NovelForm = (props: Props) => {
   const [isPending, setIsPending] = useState(false);
   const { provider } = useAuth();
   const { setStatus, isSuccessOpen, isFailOpen } = useResult();
@@ -48,6 +53,8 @@ const NovelForm = () => {
     copyRight: undefined,
   });
 
+  const [novelImgFiles, setNovelImgFiles] = useState<FileList | undefined>();
+
   const novelContract = useNovelContract();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -64,6 +71,29 @@ const NovelForm = () => {
     }));
   };
 
+  const handleImgUpdate = (e: ChangeEvent<HTMLInputElement>) => {
+    setNovelImgFiles(e.target.files!);
+  }
+
+  const handleImgUpload = async () => {
+    const files = novelImgFiles;
+    if (!files) return;
+    const response = await storeFiles(files);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+  }
+
+  const storeFiles = async (files: FileList) => {
+      const client = makeStorageClient()
+      const cid = await client.put(files)
+      console.log('stored files with cid:', cid)
+      return cid
+  }
+
   const handleMint = async () => {
     if (!provider || !novelContract) return;
 
@@ -78,7 +108,9 @@ const NovelForm = () => {
 
       const receipt = await provider.waitForTransaction(tx.hash);
 
-      if (!receipt) {
+      const uploadImgData = handleImgUpload();
+
+      if (!uploadImgData) {
         setStatus('fail');
         return;
       }
@@ -94,7 +126,7 @@ const NovelForm = () => {
   return (
     <Flex>
       <Box w={'100%'}>
-        <ImageInput />
+        <ImageInput onImageUpdate={handleImgUpdate}/>
       </Box>
       <VStack spacing={5} w={'100%'}>
         <Success
@@ -199,9 +231,17 @@ const NovelForm = () => {
           options={[...COPYRIGHT_OPTIONS]}
         />
 
-        <Button isDisabled={!novelInfo.title || !novelInfo.content} isLoading={isPending} onClick={handleMint}>
-          Create Novel
-        </Button>
+        {props.auth ? (
+          <>
+            <Button isDisabled={!novelInfo.title || !novelInfo.content} isLoading={isPending} onClick={handleMint}>
+              Create Novel
+            </Button>
+          </>
+        ) : (
+          <>
+            <Text color={'whiteAlpha.700'}>Please authenticate using WorldCoin in order to post</Text>
+          </>
+        )}
       </VStack>
     </Flex>
   );

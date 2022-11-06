@@ -22,8 +22,13 @@ import { shortenAddress } from '@/utils/address';
 import { SITE_DIRECTORY_PATHS } from '@/utils/constants/links';
 import { useLocation } from 'react-router-dom';
 import { CATEGORY_OPTIONS } from '@/utils/constants/category';
+import { WorldIDWidget } from '@worldcoin/id';
 
-const NavBar = () => {
+type Props = {
+  setAuth: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const NavBar = (props: Props) => {
   const { isOpen, onToggle } = useDisclosure();
 
   const { accountId, connect, disconnect } = useAuth();
@@ -65,6 +70,17 @@ const NavBar = () => {
             <DesktopNav />
           </Flex>
         </Flex>
+
+        <Box pr={17}>
+          <WorldIDWidget
+            actionId="wid_BPZsRJANxct2cZxVRyh80SFG" // obtain this from developer.worldcoin.org
+            signal="my_signal"
+            enableTelemetry
+            onSuccess={() => props.setAuth(true)} // pass the proof to the API or your smart contract
+            onError={(error) => console.error(error)}
+            debug={true} // to aid with debugging, remove in production
+          />
+        </Box>
 
         <Stack flex={{ base: 1, md: 0 }} justify={'flex-end'} alignItems={'center'} direction={'row'} spacing={6}>
           {accountId && <Text>{shortenAddress(accountId)}</Text>}

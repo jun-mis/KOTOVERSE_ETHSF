@@ -15,10 +15,14 @@ import {
   useDisclosure,
   SimpleGrid,
 } from '@chakra-ui/react';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState, ChangeEvent } from 'react';
 import Cropper from 'react-easy-crop';
 
-const ImageInput = () => {
+type ImageInputProps = {
+  onImageUpdate: (e: ChangeEvent<HTMLInputElement>) => void
+}
+
+const ImageInput = ({ onImageUpdate }: ImageInputProps) => {
   const [profileImage, setProfileImage] = useState('svg/noImage.svg');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -48,8 +52,10 @@ const ImageInput = () => {
 
   const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
+    onImageUpdate(e);
     // React.ChangeEvent<HTMLInputElement>よりファイルを取得
-    const fileObject = e.target.files[0];
+    const files = e.target.files;
+    const fileObject = files[0];
     // オブジェクトURLを生成し、useState()を更新
     setProfileImage(window.URL.createObjectURL(fileObject));
   };

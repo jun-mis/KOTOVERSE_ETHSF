@@ -15,6 +15,8 @@ import { Success, Fail } from './results';
 import { shortenAddress } from '@/utils/address';
 import { formatDate, toDate } from '@/utils/dates';
 import CompleteModal from './modals/CompleteModal';
+import SendClapBtn from './SendClapBtn';
+import Save from '../components/common/Save';
 
 interface NovelDetailState {
   novel: NovelSnippetType;
@@ -48,8 +50,8 @@ const NovelDetail = () => {
   const marketContract = useMarketPlaceContract();
 
   const { id } = useParams();
-  const { novel } = useLocation().state as NovelDetailState;
-
+  // const { novel } = useLocation().state as NovelDetailState;
+  const novel = {title: 'Hacking to the future', createdAt: '20200220', creator: "0xefF79038630484934247454857693045", summary: 'This is the summary', isCompleted: true}
   const checkIfAllowedToComplete = async (novelId: string): Promise<boolean> => {
     if (!novelContract) return false;
 
@@ -303,6 +305,7 @@ const NovelDetail = () => {
               Cancel Listing
             </Button>
           )}
+          <SendClapBtn channelId={import.meta.env.VITE_PUSH_CHANNEL_ID} recipientId={novel.creator} />
         </VStack>
       </VStack>
     </>
@@ -334,6 +337,7 @@ export const NovelDetailHeading = ({
         <Text onClick={onCopy} color={'whiteAlpha.900'} _hover={{ cursor: 'pointer' }}>
           Initial Author: {hasCopied ? 'Copied' : shortenAddress(creator)}
         </Text>
+        <Save ready={true}/>
         <Text color={'whiteAlpha.900'}>Start Date: {formatDate(toDate(safeCreatedAt))}</Text>
       </VStack>
       <VStack w={'100%'} spacing={3} alignItems={'flex-start'}>

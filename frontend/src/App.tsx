@@ -11,8 +11,15 @@ import Recent from './components/Recent';
 import Completed from './components/Completed';
 import { SITE_DIRECTORY_PATHS } from './utils/constants/links';
 import Category from './components/Category';
+import { Buffer } from 'buffer';
+import { useState } from 'react';
 
 const App = () => {
+  // TEMP: solution to fix `cannot access Buffer.buffer in client code` problem;
+  globalThis.Buffer = Buffer;
+
+
+  const [auth, setAuth] = useState<boolean>(false);
   return (
     <Router>
       <Flex
@@ -23,7 +30,7 @@ const App = () => {
         justifyContent={'space-between'}
         className={'bg-grad'}
       >
-        <NavBar />
+        <NavBar setAuth={setAuth} />
         <main style={{ maxWidth: '100vw', flexGrow: 1 }}>
           <Box
             w={{ base: '100%', md: '90%' }}
@@ -33,7 +40,7 @@ const App = () => {
           >
             <Routes>
               <Route index element={<Home />} />
-              <Route path={SITE_DIRECTORY_PATHS.CREATE} element={<NovelCreateForm />} />
+              <Route path={SITE_DIRECTORY_PATHS.CREATE} element={<NovelCreateForm auth={auth} />} />
               <Route path={SITE_DIRECTORY_PATHS.RECENT} element={<Recent />} />
               <Route path={SITE_DIRECTORY_PATHS.COMPLETED} element={<Completed />} />
               <Route path={SITE_DIRECTORY_PATHS.DETAIL} element={<NovelDetail />} />
